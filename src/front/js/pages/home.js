@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
@@ -29,6 +29,25 @@ export const Home = () => {
 			alert(' You are not logged in!')
 		}
 	}
+
+	const getHelloMessage = () => {
+		fetch(`https://rui775-super-space-cod-55q9vgwp56627p7w-3001.preview.app.github.dev/api/hello`, { 
+				method: "GET",
+				headers: { 
+					"Content-Type": "application/json",
+				},
+			})
+			.then((res) => res.json())
+			.then((result) => {
+				setMsg(result.message)
+			}).catch((err) => {
+				console.log(err);
+			})
+	}
+
+	useEffect(() => {
+		getHelloMessage();
+	}, [])
 
 	const logOut = () => {
 		localStorage.removeItem('jwt-token')
